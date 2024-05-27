@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { GetRequest, TParams, IGetConstructorProps, THeaders } from "./API";
+import { useState } from 'react';
+import { GetRequest, TParams, IGetConstructorProps, THeaders } from './API';
 
 export function useGet<Res = unknown, Params extends TParams = TParams>({
   url,
@@ -11,13 +11,7 @@ export function useGet<Res = unknown, Params extends TParams = TParams>({
 
   const getRequest = new GetRequest<Res>({ url, withCache });
 
-  const fetch = ({
-    headers,
-    params,
-  }: {
-    headers?: THeaders;
-    params?: Params;
-  }): void => {
+  const fetch = ({ headers, params }: { headers?: THeaders; params?: Params }): void => {
     setOnHold(true);
 
     getRequest.headers = headers;

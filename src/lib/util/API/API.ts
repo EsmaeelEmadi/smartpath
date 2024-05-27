@@ -1,8 +1,7 @@
-// ── errors ──────────────────────────────────────────────────────────
-const shouldProvideCacheConfig =
-  "when withCache is true you should pass a cacheConfig";
+// ── errors
+const shouldProvideCacheConfig = 'when withCache is true you should pass a cacheConfig';
 
-// ── types ───────────────────────────────────────────────────────────
+// ── types
 export type TURL = string;
 export type TParams = Record<string, string>;
 // TODO: create strict types for standard headers, developer should be able to extend it later
@@ -21,7 +20,7 @@ export interface IGetConstructorProps {
   cacheConfig?: ICacheConfig;
 }
 
-// ── abstract ────────────────────────────────────────────────────────
+// ── abstract
 export abstract class AbstractAPI<Res> {
   protected abstract _url: TURL;
   protected abstract _params?: TParams;
@@ -39,10 +38,7 @@ export abstract class AbstractGet<Res> extends AbstractAPI<Res> {
  * TODO:
  *  - create a seperate class for cache storage
  */
-export class GetRequest<
-  Res = unknown,
-  Params extends TParams = TParams,
-> extends AbstractGet<Res> {
+export class GetRequest<Res = unknown, Params extends TParams = TParams> extends AbstractGet<Res> {
   protected readonly _cache: TCache<Res>;
   protected readonly _withCache: boolean;
   protected _url: string;
@@ -135,10 +131,7 @@ export class GetRequest<
     const cachedItem = this._cache.get(key);
 
     if (cachedItem) {
-      if (
-        cachedItem.time + this._cacheConfig!.revalidationTime >
-        new Date().getTime()
-      ) {
+      if (cachedItem.time + this._cacheConfig!.revalidationTime > new Date().getTime()) {
         return cachedItem;
       } else {
         /**
@@ -164,7 +157,7 @@ export class GetRequest<
            * NOTE: I am using `params ?? ""` because a request may not
            *       hanve any params but still needs to be cached
            */
-          const cachedValue = this.getFromCache(params ?? "");
+          const cachedValue = this.getFromCache(params ?? '');
           if (cachedValue) return cachedValue.value;
         }
       }
@@ -174,7 +167,7 @@ export class GetRequest<
       console.log({ urlWithParams });
 
       const reqBody: { [key: string]: unknown } = {};
-      if (this._headers) reqBody["headers"] = this._headers;
+      if (this._headers) reqBody['headers'] = this._headers;
 
       const req = await fetch(urlWithParams, reqBody);
 
@@ -184,7 +177,7 @@ export class GetRequest<
 
       const res = await req.json();
 
-      if (this._withCache) this.storeInCache(params ?? "", res);
+      if (this._withCache) this.storeInCache(params ?? '', res);
 
       return res as Res;
     } catch (error) {
