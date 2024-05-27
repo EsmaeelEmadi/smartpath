@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { GetRequest, TParams, IGetConstructorProps, THeaders } from "./AIP";
-
+import { GetRequest, TParams, IGetConstructorProps, THeaders } from "./API";
 
 export function useGet<Res = unknown, Params extends TParams = TParams>({
   url,
