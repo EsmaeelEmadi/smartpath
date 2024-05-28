@@ -92,7 +92,7 @@ export const PriceChart: FC<IPriceChartProps> = ({ indexes }) => {
                   title={String(new Date(item.time * 1000).getHours())}
                 >
                   <Bar
-                    show={indexes.find((item) => item.key === 'heigh')?.checked}
+                    show={indexes.find((item) => item.key === 'high')?.checked}
                     min={minMax.min}
                     max={minMax.max}
                     size='sm'
