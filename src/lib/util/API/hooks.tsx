@@ -4,12 +4,13 @@ import { GetRequest, TParams, IGetConstructorProps, THeaders } from './API';
 export function useGet<Res = unknown, Params extends TParams = TParams>({
   url,
   withCache,
+  cacheConfig,
 }: IGetConstructorProps) {
   const [onHold, setOnHold] = useState(false);
   const [data, setData] = useState<Res>();
   const [error, setError] = useState<Error>();
 
-  const getRequest = new GetRequest<Res>({ url, withCache });
+  const getRequest = new GetRequest<Res>({ url, withCache, cacheConfig });
 
   const fetch = ({ headers, params }: { headers?: THeaders; params?: Params }): void => {
     setOnHold(true);
