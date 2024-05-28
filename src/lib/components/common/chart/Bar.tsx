@@ -37,13 +37,15 @@ export const Bar: FC<IBarProps> = ({ min, max, value, size = 'md', color = 'bg-g
     <motion.div animate={isHover ? 'open' : 'closed'} className='h-full flex flex-col-reverse mx-1'>
       {value ? (
         <motion.div
-          whileHover={{
-            marginBottom: 5,
-          }}
+          whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+          exit={{ scale: 1, transition: { duration: 0.2 } }}
           onHoverStart={handleHoverStart}
           onHoverEnd={handleHoverEnd}
-          animate={{ height: `${height}%` }}
-          transition={{ type: 'spring', stiffness: 100, ease: 'spring', duration: 0.5 }}
+          initial={{ height: 0 }}
+          animate={{
+            height: `${height}%`,
+            transition: { type: 'tween', ease: 'easeInOut', duration: 0.7 },
+          }}
           style={{ width: BAR_SIZE[size] }}
           className={classNames('rounded-md z-10 border-none felx text-center', color)}
         >
