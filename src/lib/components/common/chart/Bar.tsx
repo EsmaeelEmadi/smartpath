@@ -8,14 +8,7 @@ const BAR_SIZE = {
   lg: 30,
 } as const;
 
-//const COLORS = {
-//  green: 'bg-custom-green-400',
-//  red: 'bg-custom-red-400',
-//  golden: 'bg-custom-golden-400',
-//} as const;
-
 export type TBarSize = keyof typeof BAR_SIZE;
-//export type TBarColor = keyof typeof COLORS;
 
 export interface IBarProps {
   min: number;
@@ -23,8 +16,10 @@ export interface IBarProps {
   value: number;
   size?: TBarSize;
   color?: string;
+  title?: string;
 }
 
+//, title
 export const Bar: FC<IBarProps> = ({ min, max, value, size = 'md', color = 'bg-gray-300' }) => {
   const [isHover, setIsHover] = useState(false);
 
