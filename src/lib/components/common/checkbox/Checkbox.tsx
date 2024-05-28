@@ -19,7 +19,7 @@ export const Checkbox: FC<ICheckboxProps> = ({ className, color = 'success', ...
             color === 'success',
           'accent-custom-golden-500 border-custom-golden-500 checked:bg-custom-golden-500':
             color === 'warning',
-          'accent-custom-red-500 border-custom-red-500 checked:bg-custom-ren-500':
+          'accent-custom-red-500 border-custom-red-500 checked:bg-custom-red-500':
             color === 'danger',
         },
         className,
