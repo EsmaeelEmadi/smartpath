@@ -1,10 +1,10 @@
 // ── components
 import { Chart } from '../../chart/Chart';
+import { Bar } from '../../chart/Bar';
 
 // ── types
 import type { FC } from 'react';
 import type { TChartLevel } from '../../chart/Chart';
-import { Bar } from '../../chart/Bar';
 
 // ── constants
 const LEVELS: TChartLevel = [
@@ -38,5 +38,3 @@ export const MarketValue: FC = () => {
     </div>
   );
 };
-//min={0} max={100} size="lg" bars={[{ value: 65}]}
-//<Chart levels={LEVELS} min={0} max={100} size="lg" bars={[{ value: 65}]} />
