@@ -16,9 +16,18 @@ export interface IBarProps {
   value: number;
   size?: TBarSize;
   color?: string;
+  show?: boolean;
 }
 
-export const Bar: FC<IBarProps> = ({ min, max, value, size = 'md', color = 'bg-gray-300' }) => {
+//, title
+export const Bar: FC<IBarProps> = ({
+  min,
+  max,
+  value,
+  show = true,
+  size = 'md',
+  color = 'bg-gray-300',
+}) => {
   const [isHover, setIsHover] = useState(false);
 
   const height = ((value - min) / (max - min)) * 100;
@@ -32,10 +41,7 @@ export const Bar: FC<IBarProps> = ({ min, max, value, size = 'md', color = 'bg-g
   };
 
   return (
-    <motion.div
-      animate={isHover ? 'open' : 'closed'}
-      className='h-full flex flex-col-reverse mx-[1px]'
-    >
+    <motion.div className='h-full flex flex-col-reverse mx-[1px]'>
       {value ? (
         <motion.div
           whileHover={{ scale: 1.05, zIndex: 100, transition: { duration: 0.2 } }}
@@ -43,15 +49,23 @@ export const Bar: FC<IBarProps> = ({ min, max, value, size = 'md', color = 'bg-g
           onHoverStart={handleHoverStart}
           onHoverEnd={handleHoverEnd}
           initial={{ height: 0 }}
-          animate={{
-            height: `${height}%`,
-            transition: { type: 'tween', ease: 'easeInOut', duration: 0.7 },
+          animate={show ? 'visible' : 'hidden'}
+          variants={{
+            //hidden: {
+            //  width: 0,
+            //  transition: { type: 'tween', ease: 'easeOut', duration: 0.7 },
+            //},
+            visible: {
+              height: `${height}%`,
+              transition: { type: 'tween', ease: 'easeIn', duration: 0.7 },
+            },
           }}
           style={{ width: BAR_SIZE[size] }}
           className={classNames('relative rounded-md border-none felx text-center', color)}
         >
           <motion.div
             className='absolute -top-6 right-0 left-0 flex justify-center'
+            animate={isHover && show ? 'open' : 'closed'}
             variants={{
               open: { opacity: 100, zIndex: 100 },
               closed: { opacity: 0, zIndex: 0 },
