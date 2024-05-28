@@ -9,7 +9,7 @@ import { Bar } from '../../chart/Bar';
 // ── types
 import type { FC } from 'react';
 import type { TChartLevel } from '../../chart/Chart';
-import type { IHourlyPairOHLCV, IHourlyPairOHLCVResponse } from '../../../../util/types/market';
+import type { IHourlyPairOHLCVResponse } from '../../../../util/types/market';
 
 interface IMinMax {
   min: number;
@@ -17,23 +17,23 @@ interface IMinMax {
 }
 
 // ── constants
-const LEVELS: TChartLevel = [
+const LEVELS: Readonly<TChartLevel> = [
   {
-    name: 'level 1 is so fun',
+    name: 'level 1',
     placementPercent: 25,
   },
   {
-    name: 'level 1',
+    name: 'level 2',
     placementPercent: 50,
   },
   {
-    name: 'level 1',
+    name: 'level 3',
     placementPercent: 75,
   },
   {
     placementPercent: 100,
   },
-];
+] as const;
 
 // ── constants
 const CACHE_CONFIG = { address: 'smartpath-ohlcv', revalidationTime: 60 * 60 * 1000 };
