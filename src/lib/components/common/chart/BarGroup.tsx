@@ -1,5 +1,6 @@
-// ── types
 import classNames from 'classnames';
+
+// ── types
 import type { FC, PropsWithChildren } from 'react';
 
 export interface IBarGroupProps extends PropsWithChildren {
@@ -7,6 +8,9 @@ export interface IBarGroupProps extends PropsWithChildren {
   className?: string;
 }
 
+//          ╭─────────────────────────────────────────────────────────╮
+//          │                        component                        │
+//          ╰─────────────────────────────────────────────────────────╯
 export const BarGroup: FC<IBarGroupProps> = ({ title, children, className }) => {
   return (
     <div className={classNames('h-full flex flex-col', className)}>
