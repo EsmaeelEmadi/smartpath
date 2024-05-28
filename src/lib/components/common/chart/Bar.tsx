@@ -16,14 +16,12 @@ export interface IBarProps {
   value: number;
   size?: TBarSize;
   color?: string;
-  title?: string;
 }
 
-//, title
 export const Bar: FC<IBarProps> = ({ min, max, value, size = 'md', color = 'bg-gray-300' }) => {
   const [isHover, setIsHover] = useState(false);
 
-  const height = (value / max - min) * 100;
+  const height = ((value - min) / (max - min)) * 100;
 
   const handleHoverStart = () => {
     setIsHover(true);
@@ -34,10 +32,13 @@ export const Bar: FC<IBarProps> = ({ min, max, value, size = 'md', color = 'bg-g
   };
 
   return (
-    <motion.div animate={isHover ? 'open' : 'closed'} className='h-full flex flex-col-reverse mx-1'>
+    <motion.div
+      animate={isHover ? 'open' : 'closed'}
+      className='h-full flex flex-col-reverse mx-[1px]'
+    >
       {value ? (
         <motion.div
-          whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+          whileHover={{ scale: 1.05, zIndex: 100, transition: { duration: 0.2 } }}
           exit={{ scale: 1, transition: { duration: 0.2 } }}
           onHoverStart={handleHoverStart}
           onHoverEnd={handleHoverEnd}
@@ -47,17 +48,19 @@ export const Bar: FC<IBarProps> = ({ min, max, value, size = 'md', color = 'bg-g
             transition: { type: 'tween', ease: 'easeInOut', duration: 0.7 },
           }}
           style={{ width: BAR_SIZE[size] }}
-          className={classNames('rounded-md z-10 border-none felx text-center', color)}
+          className={classNames('relative rounded-md border-none felx text-center', color)}
         >
           <motion.div
-            className='w-full mt-1'
+            className='absolute -top-6 right-0 left-0 flex justify-center'
             variants={{
-              open: { opacity: 100 },
-              closed: { opacity: 0 },
+              open: { opacity: 100, zIndex: 100 },
+              closed: { opacity: 0, zIndex: 0 },
             }}
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0, zIndex: 0 }}
           >
-            <p className='text-xs'>{value}</p>
+            <motion.div className='bg-gray-600 w-fit p-[2px] px-2 rounded-md'>
+              <p className='text-xs text-gray-100'>{value}</p>
+            </motion.div>
           </motion.div>
         </motion.div>
       ) : (
