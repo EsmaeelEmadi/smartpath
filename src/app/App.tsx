@@ -1,20 +1,13 @@
-import { FC, useEffect } from "react";
-import { useGet } from "../lib/API/hooks";
+// COMPONENTS
+import { CryptoChart } from '../lib/components/features/cryptoChart/CryptoChart';
+
+// TYPES
+import { FC } from 'react';
 
 export const App: FC = () => {
-  const { data, error, onHold, fetch } = useGet({
-    url: "https://min-api.cryptocompare.com/data/exchange/histohour",
-    withCache: true,
-  });
-
-  useEffect(() => {
-    fetch({ params: { tsym: "BTC", limit: "10" } });
-  }, []);
-  // tsym=BTC&limit=10
-
-  useEffect(() => {
-    console.log({ data, error, onHold });
-  }, [data, error, onHold]);
-
-  return null;
+  return (
+    <div className='App bg-[#d7e5e3] w-full min-h-screen flex items-center justify-center'>
+      <CryptoChart />
+    </div>
+  );
 };
