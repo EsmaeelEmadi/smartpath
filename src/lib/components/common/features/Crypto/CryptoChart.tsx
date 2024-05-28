@@ -1,5 +1,5 @@
 // ── components
-import { MarketValue } from './MarketValue';
+import { MarketVolume } from './MarketVolume';
 import { PriceChart } from './PriceChart';
 
 // ── types
@@ -16,7 +16,7 @@ export const CryptoChart: FC = () => {
           <PriceChart />
         </div>
         <div className='col-span-4 rounded-xl bg-white p-4 min-h-96 shadow-md shadow-gray-200'>
-          <MarketValue />
+          <MarketVolume />
         </div>
       </div>
       <div className='bg-white p-4 shadow-md shadow-gray-200 rounded-xl flex'>

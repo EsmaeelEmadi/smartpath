@@ -9,7 +9,7 @@ import { Bar } from '../../chart/Bar';
 import type { FC } from 'react';
 import type { TChartLevel } from '../../chart/Chart';
 
-interface IMarketValueProps {
+interface IMarketVolumeProps {
   dates?: Date[];
 }
 
@@ -35,7 +35,7 @@ const CACHE_CONFIG = { address: 'smartpath-volume', revalidationTime: 60 * 60 * 
 //          ╭─────────────────────────────────────────────────────────╮
 //          │                       components                        │
 //          ╰─────────────────────────────────────────────────────────╯
-export const MarketValue: FC<IMarketValueProps> = () => {
+export const MarketVolume: FC<IMarketVolumeProps> = () => {
   const { data, error, onHold, fetch } = useGet({
     url: 'https://min-api.cryptocompare.com/data/exchange/histohour',
     withCache: true,
