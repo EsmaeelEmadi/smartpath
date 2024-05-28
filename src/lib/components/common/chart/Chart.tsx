@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { motion } from 'framer-motion';
 
 // ── types
-import type { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren, WheelEventHandler } from 'react';
 import type { Point } from 'framer-motion';
 import type { IBarProps } from './Bar';
 
@@ -85,6 +85,19 @@ export const Chart: FC<IChartProps> = ({ levels, sx, align = 'center', children 
     }
   };
 
+  const handleWheel: WheelEventHandler<HTMLDivElement> = (e) => {
+    if (!chartWrapperRef.current) {
+      throw new Error('chartWrapperRef should not be undefined');
+    }
+
+    const currentLeft = chartWrapperRef.current.scrollLeft;
+    if (e.deltaY > 0) {
+      chartWrapperRef.current.scrollTo({ left: currentLeft + 15 });
+    } else {
+      chartWrapperRef.current.scrollTo({ left: currentLeft - 15 });
+    }
+  };
+
   return (
     <div className='flex flex-row h-full'>
       {levels ? (
@@ -115,6 +128,7 @@ export const Chart: FC<IChartProps> = ({ levels, sx, align = 'center', children 
         onMouseDown={handleDragStart}
         onMouseUp={handleDragEnd}
         onMouseLeave={handleDragEnd}
+        onWheel={handleWheel}
         className={classNames(
           'flex relative w-full overflow-x-auto overflow-y-hidden pb-4',
 
