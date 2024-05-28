@@ -14,8 +14,8 @@ export interface IBarGroupProps extends PropsWithChildren {
 export const BarGroup: FC<IBarGroupProps> = ({ title, children, className }) => {
   return (
     <div className={classNames('h-full flex flex-col', className)}>
-      <div className='flex flex-row h-full'>{children}</div>
-      <div className='py-2 text-center'>{title}</div>
+      <div className='flex flex-row h-full select-none'>{children}</div>
+      <div className='py-2 text-center pointer-events-none select-none'>{title}</div>
     </div>
   );
 };
