@@ -1,9 +1,9 @@
 // ── components
 import { MarketValue } from './MarketValue';
+import { PriceChart } from './PriceChart';
 
 // ── types
-import { FC } from 'react';
-import { PriceChart } from './PriceChart';
+import type { FC } from 'react';
 
 //          ╭─────────────────────────────────────────────────────────╮
 //          │                        component                        │
