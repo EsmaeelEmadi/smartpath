@@ -158,18 +158,19 @@ export class GetRequest<Res = unknown, Params extends TParams = TParams> extends
         params = new URLSearchParams(this._params).toString();
       }
 
+      const urlWithParams = params ? this._url + `?${params}` : this._url;
+
       if (this._withCache) {
         if (this._withCache) {
           /**
            * NOTE: I am using `params ?? ""` because a request may not
            *       hanve any params but still needs to be cached
            */
-          const cachedValue = this.getFromCache(params ?? '');
+          const cachedValue = this.getFromCache(urlWithParams);
+          console.log({ cachedValue });
           if (cachedValue) return cachedValue.value;
         }
       }
-
-      const urlWithParams = params ? this._url + `?${params}` : this._url;
 
       const reqBody: { [key: string]: unknown } = {};
       if (this._headers) reqBody['headers'] = this._headers;
