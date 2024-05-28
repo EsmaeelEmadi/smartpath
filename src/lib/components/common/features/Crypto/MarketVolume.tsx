@@ -8,7 +8,7 @@ import { Checkbox } from '../../checkbox/Checkbox';
 
 // ── types
 import type { FC } from 'react';
-import type { TChartLevel } from '../../chart/Chart';
+import type { IChartLevel } from '../../chart/Chart';
 import type {
   IHourlyExchangeVolume,
   IHourlyExchangeVolumeResponse,
@@ -19,7 +19,7 @@ interface IMarketVolumeProps {
 }
 
 // ── constants
-const LEVELS: TChartLevel = [
+const LEVELS: Readonly<IChartLevel[]> = [
   {
     name: 'level 1',
     placementPercent: 25,
@@ -32,7 +32,7 @@ const LEVELS: TChartLevel = [
     name: 'level 3',
     placementPercent: 75,
   },
-];
+] as const;
 
 const CACHE_CONFIG = { address: 'smartpath-volume', revalidationTime: 60 * 60 * 1000 };
 
@@ -43,7 +43,6 @@ export const MarketVolume: FC<IMarketVolumeProps> = () => {
   // ── states
   const [selectedVolume, setSelectedVolume] = useState<IHourlyExchangeVolume>();
   const [highestVolume, setHighestVolume] = useState<number>();
-  //const [sortedData, setSortedData] = useState<IMarketVolume[]>();
 
   //, error, onHold,
   const { data, fetch } = useGet<IHourlyExchangeVolumeResponse>({
