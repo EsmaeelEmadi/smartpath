@@ -81,10 +81,14 @@ export class GetRequest<Res = unknown, Params extends TParams = TParams> extends
   }
 
   private updateCache() {
-    localStorage.setItem(
-      this._cacheConfig!.address,
-      JSON.stringify(Array.from(this._cache).values()),
-    );
+    if (this._cache.size) {
+      localStorage.setItem(
+        this._cacheConfig!.address,
+        JSON.stringify(Array.from(this._cache.values())),
+      );
+    } else {
+      localStorage.removeItem(this._cacheConfig!.address);
+    }
   }
 
   private storeInCache(key: string, value: Res): void {
@@ -104,14 +108,17 @@ export class GetRequest<Res = unknown, Params extends TParams = TParams> extends
 
     if (storageCache) {
       const parsedStorageCache: TCacheRes<Res>[] = JSON.parse(storageCache);
+
       const now = new Date().getTime();
 
-      for (const item of parsedStorageCache) {
-        /**
-         * revalidating expored cache
-         */
-        if (item.time + this._cacheConfig!.revalidationTime > now) {
-          this._cache.set(item.key, item);
+      if (parsedStorageCache) {
+        for (const item of parsedStorageCache) {
+          /**
+           * revalidating expored cache
+           */
+          if (item.time + this._cacheConfig!.revalidationTime > now) {
+            this._cache.set(item.key, item);
+          }
         }
       }
 
@@ -164,8 +171,6 @@ export class GetRequest<Res = unknown, Params extends TParams = TParams> extends
 
       const urlWithParams = params ? this._url + `?${params}` : this._url;
 
-      console.log({ urlWithParams });
-
       const reqBody: { [key: string]: unknown } = {};
       if (this._headers) reqBody['headers'] = this._headers;
 
@@ -177,7 +182,7 @@ export class GetRequest<Res = unknown, Params extends TParams = TParams> extends
 
       const res = await req.json();
 
-      if (this._withCache) this.storeInCache(params ?? '', res);
+      if (this._withCache) this.storeInCache(urlWithParams, res);
 
       return res as Res;
     } catch (error) {
