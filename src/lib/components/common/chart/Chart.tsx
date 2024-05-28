@@ -9,12 +9,11 @@ import type { FC, PropsWithChildren, WheelEventHandler } from 'react';
 import type { Point } from 'framer-motion';
 import type { IBarProps } from './Bar';
 
-interface IChartLavel {
+export interface IChartLevel {
   name?: string;
   placementPercent: number;
 }
 
-export type TChartLevel = IChartLavel[];
 export type TChartAlign = 'center' | 'start' | 'end';
 
 export interface IChartBar extends Omit<IBarProps, 'min' | 'max' | 'size'> {
@@ -33,7 +32,7 @@ interface IChartSX {
 }
 
 export interface IChartProps extends PropsWithChildren {
-  levels?: TChartLevel;
+  levels?: Readonly<IChartLevel[]>;
   align?: TChartAlign;
   sx?: IChartSX;
 }
