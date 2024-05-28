@@ -8,16 +8,21 @@ import { Bar } from '../../chart/Bar';
 
 // ── types
 import type { FC } from 'react';
-import type { TChartLevel } from '../../chart/Chart';
+import type { IChartLevel } from '../../chart/Chart';
 import type { IHourlyPairOHLCVResponse } from '../../../../util/types/market';
+import type { IIndexController } from './IndexController';
 
 interface IMinMax {
   min: number;
   max: number;
 }
 
+interface IPriceChartProps {
+  indexes: IIndexController[];
+}
+
 // ── constants
-const LEVELS: Readonly<TChartLevel> = [
+const LEVELS: Readonly<IChartLevel[]> = [
   {
     name: 'level 1',
     placementPercent: 25,
@@ -35,13 +40,12 @@ const LEVELS: Readonly<TChartLevel> = [
   },
 ] as const;
 
-// ── constants
 const CACHE_CONFIG = { address: 'smartpath-ohlcv', revalidationTime: 60 * 60 * 1000 };
 
 //          ╭─────────────────────────────────────────────────────────╮
 //          │                       components                        │
 //          ╰─────────────────────────────────────────────────────────╯
-export const PriceChart: FC = () => {
+export const PriceChart: FC<IPriceChartProps> = ({ indexes }) => {
   const [minMax, setMinMax] = useState<IMinMax>();
 
   const { data, fetch } = useGet<IHourlyPairOHLCVResponse>({
@@ -76,8 +80,6 @@ export const PriceChart: FC = () => {
     }
   }, [data]);
 
-  console.log({ minMax });
-
   return (
     <div className='h-full flex flex-col gap-2'>
       <Chart levels={LEVELS}>
@@ -90,20 +92,25 @@ export const PriceChart: FC = () => {
                   title={String(new Date(item.time * 1000).getHours())}
                 >
                   <Bar
+                    show={indexes.find((item) => item.key === 'heigh')?.checked}
                     min={minMax.min}
                     max={minMax.max}
                     size='sm'
                     value={item.high}
                     color='bg-custom-green-500'
                   />
+
                   <Bar
+                    show={indexes.find((item) => item.key === 'open')?.checked}
                     min={minMax.min}
                     max={minMax.max}
                     size='sm'
                     value={item.open}
                     color='bg-custom-golden-500'
                   />
+
                   <Bar
+                    show={indexes.find((item) => item.key === 'low')?.checked}
                     min={minMax.min}
                     max={minMax.max}
                     size='sm'
