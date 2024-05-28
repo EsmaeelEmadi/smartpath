@@ -1,13 +1,28 @@
+import { motion } from 'framer-motion';
+
 // ── components
 import { Checkbox } from '../../checkbox/Checkbox';
 
 // ── types
 import type { FC } from 'react';
+import type { TColor } from '../../../../util/types/theme';
+
+export interface IIndexController {
+  key: string;
+  title: string;
+  checked: boolean;
+  color: TColor;
+}
+
+interface IIndexControllerProps {
+  indexes: IIndexController[];
+  handleIndexChange(item: IIndexController): void;
+}
 
 //          ╭─────────────────────────────────────────────────────────╮
 //          │                        component                        │
 //          ╰─────────────────────────────────────────────────────────╯
-export const IndexController: FC = () => {
+export const IndexController: FC<IIndexControllerProps> = ({ indexes, handleIndexChange }) => {
   return (
     <div className='w-full p-8'>
       <div>
@@ -15,18 +30,28 @@ export const IndexController: FC = () => {
       </div>
       <div className='flex items-center justify-center w-full h-full'>
         <div className='flex flex-col gap-8'>
-          <label className='flex gap-6 items-center'>
-            <Checkbox color='success' />
-            <p className='font-bold'>Higher</p>
-          </label>
-          <label className='flex gap-6 items-center'>
-            <Checkbox color='warning' />
-            <p className='font-bold'>Average</p>
-          </label>
-          <label className='flex gap-6 items-center'>
-            <Checkbox color='danger' />
-            <p className='font-bold'>Lower</p>
-          </label>
+          {indexes.map((item, index) => {
+            console.log({ item });
+            return (
+              <motion.label
+                whileHover={{
+                  scale: 1.1,
+                }}
+                whileTap={{
+                  scale: 0.95,
+                }}
+                key={index}
+                className='flex gap-6 items-center select-none outline-none'
+              >
+                <Checkbox
+                  color={item.color}
+                  checked={item.checked}
+                  onChange={(e) => handleIndexChange({ ...item, checked: e.target.checked })}
+                />
+                <p className='font-bold'>{item.title}</p>
+              </motion.label>
+            );
+          })}
         </div>
       </div>
     </div>
