@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
+import { useGet } from '../../../../util/API/hooks';
+
 // ── components
 import { Chart } from '../../chart/Chart';
 import { Bar } from '../../chart/Bar';
-import { Checkbox } from '../../checkbox/Checkbox';
 
 // ── types
 import type { FC } from 'react';
@@ -27,11 +29,27 @@ const LEVELS: TChartLevel = [
   },
 ];
 
+// ── constants
+const CACHE_CONFIG = { address: 'smartpath-volume', revalidationTime: 60 * 60 * 1000 };
+
 //          ╭─────────────────────────────────────────────────────────╮
 //          │                       components                        │
 //          ╰─────────────────────────────────────────────────────────╯
+export const MarketValue: FC<IMarketValueProps> = () => {
+  const { data, error, onHold, fetch } = useGet({
+    url: 'https://min-api.cryptocompare.com/data/exchange/histohour',
+    withCache: true,
+    cacheConfig: CACHE_CONFIG,
+  });
 
-export const MarketValue: FC<IMarketValueProps> = ({ dates }) => {
+  useEffect(() => {
+    fetch({ params: { tsym: 'BTC', limit: '10' } });
+  }, []);
+
+  useEffect(() => {
+    console.log({ data, error, onHold });
+  }, [data, error, onHold]);
+
   return (
     <div className='h-full flex flex-col gap-2'>
       <div className='text-center'>
@@ -42,11 +60,14 @@ export const MarketValue: FC<IMarketValueProps> = ({ dates }) => {
           <Bar min={0} max={100} value={65} size='lg' color='bg-custom-green-400' />
         </Chart>
         <div className='flex justify-center gap-2'>
+          {/*
+             
           {dates
             ? dates.map((_, index) => {
                 return <Checkbox key={index} />;
               })
             : null}
+              */}
         </div>
       </div>
     </div>
