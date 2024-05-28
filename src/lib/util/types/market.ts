@@ -28,17 +28,15 @@ export interface IHourlyPairOHLCV {
 }
 
 export interface IHourlyPairOHLCVResponse {
-  key: string;
-  time: number;
-  value: {
+  Data: {
     Data: IHourlyPairOHLCV[];
-    HasWarning: boolean;
-    Message: string;
-    RateLimit: Record<string, unknown>;
-    Response: string;
-    Type: number;
     Aggregated: boolean;
     TimeFrom: number;
     TimeTo: number;
   };
+  HasWarning: boolean;
+  Message: string;
+  RateLimit: Record<string, unknown>;
+  Response: string;
+  Type: number;
 }
