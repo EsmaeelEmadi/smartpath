@@ -1,11 +1,14 @@
-// ── components
+import { useState, useRef, useCallback, MouseEventHandler } from 'react';
 import classNames from 'classnames';
+
+// ── components
 import { motion } from 'framer-motion';
 
 // ── types
 import type { FC, PropsWithChildren } from 'react';
-import { IBarProps } from './Bar';
-//Bar,
+import type { Point } from 'framer-motion';
+import type { IBarProps } from './Bar';
+
 interface IChartLavel {
   name?: string;
   placementPercent: number;
@@ -22,9 +25,6 @@ export interface IChartBarGroup {
   title: string;
 }
 
-//bars: IChartBar[] | IChartBarGroup[];
-//Omit<IBarProps, 'value'>
-
 interface IChartSX {
   barWrapper?: {
     className?: string;
@@ -40,16 +40,61 @@ export interface IChartProps extends PropsWithChildren {
 //          ╭─────────────────────────────────────────────────────────╮
 //          │                        component                        │
 //          ╰─────────────────────────────────────────────────────────╯
+
 export const Chart: FC<IChartProps> = ({ levels, sx, align = 'center', children }) => {
+  const chartWrapperRef = useRef<HTMLDivElement>(null);
+  const scrollStartPoint = useRef<Point>();
+
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDragScroll = useCallback(
+    (e: MouseEvent) => {
+      if (!scrollStartPoint.current) {
+        throw new Error('scroll start point in undefined');
+      }
+      if (!chartWrapperRef.current) {
+        throw new Error('chartWrapperRef is undefined');
+      }
+
+      const left = chartWrapperRef.current.scrollLeft + (e.clientX - scrollStartPoint.current.x);
+
+      scrollStartPoint.current = { x: e.clientX, y: e.clientY };
+
+      chartWrapperRef.current?.scrollTo({ left });
+    },
+    [chartWrapperRef, scrollStartPoint],
+  );
+
+  const handleDragStart: MouseEventHandler<HTMLDivElement> = (e) => {
+    scrollStartPoint.current = { x: e.clientX, y: e.clientY };
+
+    setIsDragging(true);
+    if (chartWrapperRef.current) {
+      chartWrapperRef.current.addEventListener('mousemove', handleDragScroll);
+    } else {
+      throw new Error('Unable to add event listener to undefined chartWrapperRef');
+    }
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+    if (chartWrapperRef.current) {
+      chartWrapperRef.current.removeEventListener('mousemove', handleDragScroll);
+    } else {
+      throw new Error('Unable to remove event listener to undefined chartWrapperRef');
+    }
+  };
+
   return (
     <div className='flex flex-row h-full'>
       {levels ? (
         <div className='w-[100px] relative'>
-          {levels.map((level) => {
+          {levels.map((level, index) => {
             if (!level.name) return null;
 
             return (
               <motion.div
+                key={index}
                 initial={{ opacity: 0, bottom: `${level.placementPercent}%` }}
                 animate={{ opacity: 100 }}
                 transition={{
@@ -66,38 +111,56 @@ export const Chart: FC<IChartProps> = ({ levels, sx, align = 'center', children 
         </div>
       ) : null}
       <div
-        className={classNames('flex relative w-full overflow-auto', sx?.barWrapper?.className, {
-          'justify-center': align === 'center',
-          'justify-start': align === 'start',
-          'justify-end': align === 'end',
-        })}
+        ref={chartWrapperRef}
+        onMouseDown={handleDragStart}
+        onMouseUp={handleDragEnd}
+        onMouseLeave={handleDragEnd}
+        className={classNames(
+          'flex relative w-full overflow-x-auto overflow-y-hidden pb-4',
+
+          sx?.barWrapper?.className,
+          {
+            'cursor-grab': !isDragging,
+            'cursor-grabbing': isDragging,
+          },
+        )}
       >
-        {children}
-        {levels
-          ? levels.map((level) => {
-              return (
-                <motion.div
-                  initial={{ bottom: `${level.placementPercent}%`, left: 0 }}
-                  animate={{ right: 0 }}
-                  transition={{
-                    ease: 'easeOut',
-                    delay: 0.2,
-                    duration: 0.3,
-                  }}
-                  className='absolute'
-                >
-                  <div className='border-b-gray-100 border border-dashed' />
-                </motion.div>
-              );
-            })
-          : null}
+        <div
+          className={classNames(
+            'flex relative w-full',
+
+            sx?.barWrapper?.className,
+            {
+              'justify-center': align === 'center',
+              'justify-start': align === 'start',
+              'justify-end': align === 'end',
+              'pointer-events-auto': !isDragging,
+              'pointer-events-none': isDragging,
+            },
+          )}
+        >
+          {children}
+          {levels
+            ? levels.map((level, index) => {
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ bottom: `${level.placementPercent}%`, left: 0 }}
+                    animate={{ right: 0 }}
+                    transition={{
+                      ease: 'easeOut',
+                      delay: 0.2,
+                      duration: 0.3,
+                    }}
+                    className='absolute'
+                  >
+                    <div className='border-b-gray-100 border border-dashed' />
+                  </motion.div>
+                );
+              })
+            : null}
+        </div>
       </div>
     </div>
   );
 };
-//{bars.map((bar) => {
-//  return null;
-//  //if (bar.title) {
-//  //return <Bar min={min} max={max} value={bar.value} size={size} color={bar.color} />;
-//  //}
-//})}
