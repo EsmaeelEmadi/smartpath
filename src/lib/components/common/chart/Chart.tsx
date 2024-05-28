@@ -20,6 +20,7 @@ export type TChartAlign = 'center' | 'start' | 'end';
 export interface IChartBar extends Omit<IBarProps, 'min' | 'max' | 'size'> {
   title: string;
 }
+
 export interface IChartBarGroup {
   bars: Omit<IBarProps, 'min' | 'max' | 'size'>[];
   title: string;
@@ -101,14 +102,14 @@ export const Chart: FC<IChartProps> = ({ levels, sx, align = 'center', children 
   return (
     <div className='flex flex-row h-full'>
       {levels ? (
-        <div className='w-[100px] relative'>
+        <div className='w-[100px] relative mb-4 mt-8'>
           {levels.map((level, index) => {
             if (!level.name) return null;
 
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, bottom: `${level.placementPercent}%` }}
+                initial={{ opacity: 0, top: `${level.placementPercent}%` }}
                 animate={{ opacity: 100 }}
                 transition={{
                   ease: 'easeOut',
@@ -117,7 +118,7 @@ export const Chart: FC<IChartProps> = ({ levels, sx, align = 'center', children 
                 }}
                 className='absolute'
               >
-                <p className=''>{level.name}</p>
+                <p className='leading-[0px]'>{level.name}</p>
               </motion.div>
             );
           })}
@@ -130,7 +131,7 @@ export const Chart: FC<IChartProps> = ({ levels, sx, align = 'center', children 
         onMouseLeave={handleDragEnd}
         onWheel={handleWheel}
         className={classNames(
-          'flex relative w-full overflow-x-auto overflow-y-hidden pb-4',
+          'flex relative w-full overflow-x-auto overflow-y-hidden pb-4 pt-8',
 
           sx?.barWrapper?.className,
           {
@@ -166,7 +167,7 @@ export const Chart: FC<IChartProps> = ({ levels, sx, align = 'center', children 
                       delay: 0.2,
                       duration: 0.3,
                     }}
-                    className='absolute'
+                    className='absolute '
                   >
                     <div className='border-b-gray-100 border border-dashed' />
                   </motion.div>
