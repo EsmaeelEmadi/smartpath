@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
-import { useGet } from '../../../../util/API/hooks';
+import { useGet } from '../../../util/API/hooks';
 
 // ── components
-import { Chart } from '../../chart/Chart';
-import { Bar } from '../../chart/Bar';
-import { Checkbox } from '../../checkbox/Checkbox';
+import { Chart } from '../../common/chart/Chart';
+import { Bar } from '../../common/chart/Bar';
+import { Checkbox } from '../../common/checkbox/Checkbox';
 
 // ── types
 import type { FC } from 'react';
-import type { IChartLevel } from '../../chart/Chart';
+import type { IChartLevel } from '../../common/chart/Chart';
 import type {
   IHourlyExchangeVolume,
   IHourlyExchangeVolumeResponse,
-} from '../../../../util/types/market';
+} from '../../../util/types/market';
 
 interface IMarketVolumeProps {
   dates?: Date[];

@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
 
 // ── components
-import { Checkbox } from '../../checkbox/Checkbox';
+import { Checkbox } from '../../common/checkbox/Checkbox';
 
 // ── types
 import type { FC } from 'react';
-import type { TColor } from '../../../../util/types/theme';
+import type { TColor } from '../../../util/types/theme';
 
 export interface IIndexController {
   key: string;

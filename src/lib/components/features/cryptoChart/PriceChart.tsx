@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useGet } from '../../../../util/API/hooks';
+import { useGet } from '../../../util/API/hooks';
 
 // ── components
-import { Chart } from '../../chart/Chart';
-import { BarGroup } from '../../chart/BarGroup';
-import { Bar } from '../../chart/Bar';
+import { Chart } from '../../common/chart/Chart';
+import { BarGroup } from '../../common/chart/BarGroup';
+import { Bar } from '../../common/chart/Bar';
 
 // ── types
 import type { FC } from 'react';
-import type { IChartLevel } from '../../chart/Chart';
-import type { IHourlyPairOHLCVResponse } from '../../../../util/types/market';
+import type { IChartLevel } from '../../common/chart/Chart';
+import type { IHourlyPairOHLCVResponse } from '../../../util/types/market';
 import type { IIndexController } from './IndexController';
 
 interface IMinMax {
