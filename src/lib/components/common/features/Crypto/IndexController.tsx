@@ -12,6 +12,7 @@ export interface IIndexController {
   title: string;
   checked: boolean;
   color: TColor;
+  [x: string]: unknown;
 }
 
 interface IIndexControllerProps {
