@@ -42,7 +42,31 @@ export const CryptoChart: FC = () => {
           <MarketValue dates={dates} />
         </div>
       </div>
-      <div className='bg-white p-4 shadow-md shadow-gray-200 rounded-xl'>col 2</div>
+      <div className='bg-white p-4 shadow-md shadow-gray-200 rounded-xl flex'>
+        <div className='w-full p-8'>
+          <div>
+            <p className='text-lg font-bold'>Indexes</p>
+          </div>
+          <div className='flex items-center justify-center w-full h-full'>
+            <div className='flex flex-col gap-8'>
+              <div className='flex gap-6 items-center'>
+                <div className='h-4 w-4 rounded-full bg-custom-green-400' />
+                <p className='font-bold'>Higher</p>
+              </div>
+              <div className='flex gap-6 items-center'>
+                <div className='h-4 w-4 rounded-full bg-custom-golden-400' />
+                <p className='font-bold'>Average</p>
+              </div>
+              <div className='flex gap-6 items-center'>
+                <div className='h-4 w-4 rounded-full bg-custom-red-400' />
+                <p className='font-bold'>Lower</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='w-full p-8'>2</div>
+        <div className='w-full p-8'>3</div>
+      </div>
     </div>
   );
 };
