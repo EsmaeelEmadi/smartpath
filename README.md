@@ -10,7 +10,7 @@
   - [app directory](#app-directory)
   - [lib directory](#lib-directory)
 - **[Naming Convention](#naming-convention)**
-- \*\*[Installation](#installation)
+- **[Installation](#installation)**
 
 ## A Quick Note <a id="note"></a>
 
@@ -85,6 +85,8 @@ Go to the direcotry where the repo is cloned, Open a terminal and then,
 ```sh
 > npm start
 ```
+
+---
 
 > [!TIP]
 > I did use the AI for generating the README file
