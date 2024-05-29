@@ -11,14 +11,12 @@ import type { FC } from 'react';
 import type { IChartLevel } from '../../common/chart/Chart';
 import type { IHourlyPairOHLCVResponse } from '../../../util/types/market';
 import type { IIndexController } from './IndexController';
-
-interface IMinMax {
-  min: number;
-  max: number;
-}
+import type { IMinMax } from '../../../util/types/general';
+import type { IHighLowMinMax } from './types';
 
 interface IPriceChartProps {
   indexes: IIndexController[];
+  onMinMaxChange(minMax: IHighLowMinMax): void;
 }
 
 // ── constants
@@ -45,7 +43,7 @@ const CACHE_CONFIG = { address: 'smartpath-ohlcv', revalidationTime: 60 * 60 * 1
 //          ╭─────────────────────────────────────────────────────────╮
 //          │                       components                        │
 //          ╰─────────────────────────────────────────────────────────╯
-export const PriceChart: FC<IPriceChartProps> = ({ indexes }) => {
+export const PriceChart: FC<IPriceChartProps> = ({ indexes, onMinMaxChange }) => {
   const [minMax, setMinMax] = useState<IMinMax>();
 
   const { data, fetch } = useGet<IHourlyPairOHLCVResponse>({
@@ -60,23 +58,68 @@ export const PriceChart: FC<IPriceChartProps> = ({ indexes }) => {
         fsym: 'BTC',
         tsym: 'USD',
         limit: '10',
+        // TODO: move to .env
         api_key: '365694a330b56587f1e2a5b53a1d24c68ecbfbb1dadfee33c5848e299c896ae8',
       },
     });
   }, []);
 
   useEffect(() => {
-    console.log('----', data?.Data);
     if (data) {
-      //setSelectedVolume(data.Data[0]);
       const clone = [...data.Data.Data];
       let _min = clone.sort((a, b) => b.high - a.high)[0].high;
       const _max = clone.sort((a, b) => a.low - b.low)[0].low;
 
+      /**
+       * lower the mininum value of the char
+       * otherwise the lowes element won't be visible
+       */
       const amountToReduceMin = (_max - _min) / 10;
       _min = _min - amountToReduceMin;
 
       setMinMax({ min: _min, max: _max });
+
+      /**
+       * handle low and high minMax
+       */
+      const cloneZeroHours = new Date(clone[0].time * 1000).getHours();
+
+      const minMax = clone.reduce(
+        (acc, curr) => {
+          if (acc.low.min.value > curr.low) {
+            acc.low.min.value = curr.low;
+            acc.low.min.time = new Date(curr.time * 1000).getHours();
+          } else if (acc.low.max.value < curr.low) {
+            acc.low.max.value = curr.low;
+            acc.low.max.time = new Date(curr.time * 1000).getHours();
+          }
+
+          if (acc.high.min.value > curr.high) {
+            acc.high.min.value = curr.high;
+            acc.high.min.time = new Date(curr.time * 1000).getHours();
+          } else if (acc.high.max.value < curr.high) {
+            acc.high.max.value = curr.high;
+            acc.high.max.time = new Date(curr.time * 1000).getHours();
+          }
+
+          return acc;
+        },
+        {
+          low: {
+            min: { time: cloneZeroHours, value: clone[0].low },
+            max: { time: cloneZeroHours, value: clone[0].low },
+          },
+          high: {
+            min: { time: cloneZeroHours, value: clone[0].high },
+            max: { time: cloneZeroHours, value: clone[0].high },
+          },
+        },
+      );
+
+      onMinMaxChange({
+        low: { min: minMax.low.min.time, max: minMax.low.max.time },
+        high: { min: minMax.high.min.time, max: minMax.high.max.time },
+      });
     }
   }, [data]);
 
