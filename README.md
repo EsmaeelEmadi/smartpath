@@ -28,11 +28,11 @@ In addition to these packages, the project utilizes basic React setup, formattin
 
 This section outlines the structure of the project and reflects my approach to organizing React projects.
 
-### app directory <a id="app-directory></a>
+### app directory <a id="app-directory"></a>
 
 Contains the pages of the application, with each subdirectory representing a sub-route for navigation.
 
-### lib directory <a id="lib-directory></a>
+### lib directory <a id="lib-directory"></a>
 
 #### lib/components/common
 
