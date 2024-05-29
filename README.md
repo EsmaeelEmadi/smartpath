@@ -1,46 +1,90 @@
-# Getting Started with Create React App
+# Chart for Smartpath
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![alt text](./docs/screenshot.png)
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- **[Note](#note)**
+- **[Packages](#packages)**
+- **[Project Structure](#project-structure)**
+  - [app directory](#app-directory)
+  - [lib directory](#lib-directory)
+- **[Naming Convention](#naming-convention)**
+- \*\*[Installation](#installation)
 
-### `npm start`
+## A Quick Note <a id="note"></a>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+For this project, I aimed to demonstrate my proficiency in React by utilizing a minimal number of packages. I handcrafted all the components from scratch to showcase my approach and coding style. While the components may not be as extensible as they could be, given the time constraints, I focused on delivering a functional demonstration of my skills.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Packages <a id="packages"></a>
 
-### `npm test`
+- `Framer Motion` for animation
+- `Tailwind CSS` for easy-to-use classes for styling
+- `classnames` for conditional classes
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+In addition to these packages, the project utilizes basic React setup, formatting, and linting packages.
 
-### `npm run build`
+## Project Structure <a id="project-structure"></a>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This section outlines the structure of the project and reflects my approach to organizing React projects.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### app directory <a id="app-directory></a>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Contains the pages of the application, with each subdirectory representing a sub-route for navigation.
 
-### `npm run eject`
+### lib directory <a id="lib-directory></a>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### lib/components/common
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Stores general-purpose components such as dialogs and buttons that are used across various parts of the application.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### lib/components/features
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Houses encapsulated components, providers, and other related elements specific to particular features of the application. This helps maintain modularity and enhances code organization.
 
-## Learn More
+#### lib/types
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Hosts global types used throughout the project. This directory helps ensure type safety and consistency across different modules and components.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### lib/utils
+
+Contains utility functions, including validation and helper functions, that are utilized across the project. This central location simplifies access to commonly used functionalities and promotes code reusability.
+
+## Naming Convention <a id="naming-convention"></a>
+
+In this project, I adhere to a consistent naming convention to maintain clarity and organization:
+
+- I prefix all types with either `I` for interfaces or `T` for types.
+- Classes and React components begin with a capital letter, distinguishing them from types and interfaces.
+
+This approach aids in quickly differentiating between types, interfaces, classes, and components, contributing to a more organized codebase.
+
+## Installation <a id="installation"></a>
+
+clone the git repo.
+
+### After Cloning
+
+Go to the direcotry where the repo is cloned, Open a terminal and then,
+
+**Installing Dependencies**
+
+```sh
+> npm i
+```
+
+**Installing Husky** (only for developement)
+
+```sh
+> npm run post-install
+> chmod +x .husky/pre-commit
+```
+
+**Run the application**
+
+```sh
+> npm start
+```
+
+> [!TIP]
+> I did use the AI for generating the README file
