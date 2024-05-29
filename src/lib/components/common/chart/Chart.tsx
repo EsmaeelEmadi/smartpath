@@ -115,9 +115,9 @@ export const Chart: FC<IChartProps> = ({ levels, sx, align = 'center', children 
                   delay: 0.2,
                   duration: 0.3,
                 }}
-                className='absolute'
+                className='absolute right-6'
               >
-                <p className='leading-[0px]'>{level.name}</p>
+                <p className='leading-[0px] select-none'>{level.name}</p>
               </motion.div>
             );
           })}
